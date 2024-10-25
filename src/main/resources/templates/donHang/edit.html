@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Chỉnh sửa Đơn Hàng</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <h2 class="text-center">Chỉnh sửa Đơn Hàng</h2>
+
+    <form th:action="@{/don-hang/edit}" method="post" th:object="${donHang}">
+        <input type="text" th:field="*{maDonHang}" hidden>
+        <div class="form-group">
+            <label for="loaiSp">Loại Sản Phẩm</label>
+            <select class="form-control" id="loaiSp" th:field="*{sanPham.loaiSanPham.maLoaiSp}" required>
+                <option th:each="type : ${loaiSanPhamList}"
+                        th:value="${type.maLoaiSp}"
+                        th:selected="${type.maLoaiSp == donHang.sanPham.loaiSanPham.maLoaiSp}"
+                        th:text="${type.tenLoaiSp}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="tenSp">Tên Sản Phẩm</label>
+            <select class="form-control" id="tenSp" th:field="*{sanPham.maSp}" required>
+                <option th:each="name : ${sanPhamList}"
+                        th:value="${name.maSp}"
+                        th:selected="${name.maSp == donHang.sanPham.maSp}"
+                        th:text="${name.tenSp}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="ngayMua">Ngày Mua</label>
+            <input type="text" class="form-control" id="ngayMua"
+                   th:field="*{ngayMua}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="soLuong">Số Lượng</label>
+            <input type="number" class="form-control" id="soLuong" th:field="*{soLuong}" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Lưu Thay Đổi</button>
+        <a href="/don-hang" class="btn btn-secondary">Hủy</a>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
