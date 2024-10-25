@@ -48,5 +48,26 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
+<script>
+    $(document).ready(function() {
+        $('#loaiSp').change(function() {
+            var loaiSanPhamId = $(this).val();
+            $.ajax({
+                url: '/san-pham/' + loaiSanPhamId,
+                method: 'GET',
+                success: function(data) {
+                    var tenSPSelect = $('#tenSp');
+                    tenSPSelect.empty(); // Xóa tất cả các tùy chọn hiện tại
+                    $.each(data, function(index, sanPham) {
+                        tenSPSelect.append($('<option></option>').val(sanPham.maSp).text(sanPham.tenSp));
+                    });
+                },
+                error: function() {
+                    alert('Có lỗi xảy ra khi tải sản phẩm.');
+                }
+            });
+        });
+    });
+</script>
 </body>
 </html>

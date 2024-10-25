@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.website.testmodule4.models.DonHang;
 import org.website.testmodule4.repositories.DonHangRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -27,5 +28,8 @@ public class DonHangService {
 
     public List<DonHang> getTopDonHang() {
         return donHangRepository.findTopDonHangByTongTien();
+    }
+    public List<DonHang> findByDateRange(LocalDateTime startDate, LocalDateTime endDate) {
+        return donHangRepository.findByDateRange(startDate, endDate);
     }
 }

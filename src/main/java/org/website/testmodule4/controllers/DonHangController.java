@@ -12,6 +12,7 @@ import org.website.testmodule4.services.DonHangService;
 import org.website.testmodule4.services.LoaiSanPhamService;
 import org.website.testmodule4.services.SanPhamService;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,15 +39,6 @@ public class DonHangController {
         return "donHang/list";
     }
 
-//    @GetMapping("/edit/{id}")
-//    @ResponseBody
-//    public ResponseEntity<DonHang> editOrder(@PathVariable Long id) {
-//        DonHang donHang = donHangService.getDonHangById(id);
-//        if (donHang == null) {
-//            return ResponseEntity.notFound().build();
-//        }
-//        return ResponseEntity.ok(donHang);
-//    }
     @GetMapping("/edit/{id}")
     public String editDonHang(@PathVariable Long id, Model model) {
         DonHang donHang = donHangService.getDonHangById(id);
@@ -58,6 +50,13 @@ public class DonHangController {
         return "donHang/edit";
     }
 
+//    @GetMapping("/san-pham/{id}")
+//    @ResponseBody
+//    public List<SanPham> getSanPhamByLoai(@PathVariable Long id) {
+//        LoaiSanPham loaiSanPham = loaiSanPhamService.getLoaiSanPhamById(id);
+//        return sanPhamService.getByLoadSanPham(loaiSanPham);
+//    }
+
     @PostMapping("/edit")
     public String updateDonHang(@ModelAttribute("donHang")DonHang donHang) {
         donHangService.saveDonHang(donHang);
@@ -67,6 +66,17 @@ public class DonHangController {
     @GetMapping("/top")
     public String GetTop(Model model) {
         List<DonHang> donHangList = donHangService.getTopDonHang();
+        model.addAttribute("donHangList", donHangList);
+        return "donHang/list";
+    }
+    @GetMapping("/filter")
+    public String filterDonHang(@RequestParam("startDate") String startDateStr,
+                                @RequestParam("endDate") String endDateStr,
+                                Model model) {
+        LocalDateTime startDate = LocalDateTime.parse(startDateStr + "T00:00:00");
+        LocalDateTime endDate = LocalDateTime.parse(endDateStr + "T23:59:59");
+
+        List<DonHang> donHangList = donHangService.findByDateRange(startDate, endDate);
         model.addAttribute("donHangList", donHangList);
         return "donHang/list";
     }
